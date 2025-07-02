@@ -1,4 +1,4 @@
-import { useState, useRef, type FormEvent } from "react";
+import { useState, useRef } from "react";
 import { Game, type GameResponse } from "./lib/Game";
 import Console from "./components/Console";
 import Map from "./components/Map";
@@ -21,9 +21,15 @@ function App() {
     const messageIdCounter = useRef(messages.length + 1);
 
     function handleSubmit(formData: FormData) {
-        const command = formData.get("command")?.toString();
+        const command = formData.get("command")?.toString().toLowerCase();
 
         if (!command) return;
+
+        // handle misc commands here before game commands
+        if (command === "clear" || command === "cls") {
+            setMessages([]);
+            return;
+        }
 
         // Instantiate Game on the first command
         if (!gameRef.current) {
@@ -39,6 +45,7 @@ function App() {
 
         // Get the game's response
         const gameResponse = gameRef.current.handleCommand(command);
+
         const gameMessage: Message = {
             id: messageIdCounter.current++,
             ...gameResponse,
