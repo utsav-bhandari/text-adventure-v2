@@ -41,6 +41,20 @@ main {
     display: none !important;
 }
 
+.console input {
+    all: unset;
+    flex: 1;
+}
+
+.command-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.command-wrapper::before {
+    content: "> ";
+}
+
 .map {
     background-color: green;
     position: fixed;

@@ -1,8 +1,8 @@
 function Map() {
     return (
-        <section className="map">
+        <div className="map">
             <h1>Map</h1>
-        </section>
+        </div>
     );
 }
 
