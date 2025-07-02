@@ -7,7 +7,7 @@ const NUM_DEFAULT_MESSAGES = 1;
 
 type ConsoleProps = {
     messages: Message[];
-    handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+    handleSubmit: (formData: FormData) => void;
 };
 
 // This function will decide which component to render
@@ -48,7 +48,7 @@ function Console({ messages, handleSubmit }: ConsoleProps) {
                     <div key={msg.id}>{renderMessage(msg)}</div>
                 ))}
             </div>
-            <form onSubmit={handleSubmit}>
+            <form action={handleSubmit}>
                 <span className="command-wrapper">
                     <input
                         ref={promptRef}

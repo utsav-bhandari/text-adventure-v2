@@ -20,11 +20,8 @@ function App() {
 
     const messageIdCounter = useRef(messages.length + 1);
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
+    function handleSubmit(formData: FormData) {
         const command = formData.get("command")?.toString();
-        event.currentTarget.reset(); // clear the input field
 
         if (!command) return;
 
