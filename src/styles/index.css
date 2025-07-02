@@ -52,6 +52,7 @@ main {
 .command-wrapper::before {
     content: "> ";
     color: var(--player-clr);
+    font-size: 1.3rem;
 }
 
 .console input {

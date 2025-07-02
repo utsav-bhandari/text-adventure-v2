@@ -3,6 +3,8 @@ import { type Message } from "../App";
 import NarrationMessage from "./NarrationMessage";
 import StatsTable from "./StatsTable";
 
+const NUM_DEFAULT_MESSAGES = 1;
+
 type ConsoleProps = {
     messages: Message[];
     handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -42,12 +44,6 @@ function Console({ messages, handleSubmit }: ConsoleProps) {
         <div className="console" onClick={() => promptRef.current?.focus()}>
             <h1 style={{ color: "white" }}>Console</h1>
             <div className="console-output">
-                <p className="message">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Dolores id quas suscipit obcaecati laudantium hic
-                    repudiandae, quo beatae modi sapiente? Assumenda, dicta
-                    minima fugit quia eaque ipsa mollitia. Sequi, autem. lorem
-                </p>
                 {messages.map((msg) => (
                     <div key={msg.id}>{renderMessage(msg)}</div>
                 ))}
@@ -58,8 +54,13 @@ function Console({ messages, handleSubmit }: ConsoleProps) {
                         ref={promptRef}
                         name="command"
                         type="text"
-                        autoCorrect="off"
                         autoComplete="off"
+                        spellCheck="false"
+                        placeholder={
+                            messages.length === NUM_DEFAULT_MESSAGES
+                                ? "type a command or help for list of commands"
+                                : ""
+                        }
                         autoFocus
                     />
                 </span>

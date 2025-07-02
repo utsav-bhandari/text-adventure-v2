@@ -26,33 +26,33 @@ function App() {
         const command = formData.get("command")?.toString();
         event.currentTarget.reset(); // clear the input field
 
-        if (command) {
-            // Instantiate Game on the first command
-            if (!gameRef.current) {
-                gameRef.current = new Game();
-            }
+        if (!command) return;
 
-            // Create a message object for the player's command
-            const playerMessage: Message = {
-                id: messageIdCounter.current++,
-                type: "player",
-                payload: { text: `> ${command}` },
-            };
-
-            // Get the game's response
-            const gameResponse = gameRef.current.handleCommand(command);
-            const gameMessage: Message = {
-                id: messageIdCounter.current++,
-                ...gameResponse,
-            };
-
-            // 3. Update the state with both new messages
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                playerMessage,
-                gameMessage,
-            ]);
+        // Instantiate Game on the first command
+        if (!gameRef.current) {
+            gameRef.current = new Game();
         }
+
+        // Create a message object for the player's command
+        const playerMessage: Message = {
+            id: messageIdCounter.current++,
+            type: "player",
+            payload: { text: `> ${command}` },
+        };
+
+        // Get the game's response
+        const gameResponse = gameRef.current.handleCommand(command);
+        const gameMessage: Message = {
+            id: messageIdCounter.current++,
+            ...gameResponse,
+        };
+
+        // 3. Update the state with both new messages
+        setMessages((prevMessages) => [
+            ...prevMessages,
+            playerMessage,
+            gameMessage,
+        ]);
     }
 
     return (
