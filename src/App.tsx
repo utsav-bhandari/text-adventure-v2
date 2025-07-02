@@ -1,5 +1,13 @@
+import Console from "./components/Console";
+import Map from "./components/Map";
+
 function Game() {
-    return <h1>Game here</h1>;
+    return (
+        <main>
+            <Console />
+            <Map />
+        </main>
+    );
 }
 
 export default Game;
