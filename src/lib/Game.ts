@@ -31,7 +31,7 @@ class Game {
             case "stats":
                 return {
                     type: "stats",
-                    payload: this.playerStats,
+                    payload: { ...this.playerStats },
                 };
 
             case "go east":
