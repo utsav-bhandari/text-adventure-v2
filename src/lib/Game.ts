@@ -2,9 +2,19 @@
 type NarrationPayload = { text: string };
 type StatsPayload = { name: string; hp: number; maxHp: number; str: number };
 
+type GenericResponseTypes =
+    | "player"
+    | "narration"
+    | "system"
+    | "error"
+    | "stats";
+
 type GameResponse =
-    | { type: "narration" | "error"; payload: NarrationPayload }
-    | { type: "stats"; payload: StatsPayload };
+    | {
+          type: Exclude<GenericResponseTypes, "stats">;
+          payload: NarrationPayload;
+      }
+    | { type: Extract<GenericResponseTypes, "stats">; payload: StatsPayload };
 
 class Game {
     private playerStats: StatsPayload = {
