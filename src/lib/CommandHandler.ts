@@ -124,8 +124,9 @@ class CommandHandler {
                 text: `${"¿".repeat(Math.round(Math.random() * 10))}`,
             });
         } else {
+            // null/undefined
             return this.createResponseObject("system", {
-                text: "A mocking cackle echoes from unseen corners. That command holds no power here...",
+                text: "A mocking cackle echoes from unseen corners. That command holds no power here...Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos consequuntur ex sapiente magni a, quasi corrupti aperiam, maiores, reprehenderit veniam laudantium ipsam. Quam ipsa voluptate excepturi porro, voluptatem repellendus odio.",
             });
         }
     }

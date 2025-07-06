@@ -1,15 +1,18 @@
-import { useRef, useEffect } from "react";
+// src/components/Console.tsx
+
+import { useRef, useEffect, useLayoutEffect } from "react";
 import { type Message } from "../App";
 import NarrationMessage from "./NarrationMessage";
 import StatsTable from "./StatsTable";
 
-const NUM_START_MESSAGES = 1;
-
-// The props and renderMessage function are unchanged
+// The props definition is unchanged
 type ConsoleProps = {
     messages: Message[];
     handleSubmit: (formData: FormData) => void;
 };
+
+// How fast the text should appear (in milliseconds per character)
+const TYPING_SPEED = 10;
 
 function renderMessage(message: Message) {
     switch (message.type) {
@@ -21,6 +24,7 @@ function renderMessage(message: Message) {
                 <NarrationMessage
                     text={message.payload.text}
                     type={message.type}
+                    typingSpeed={TYPING_SPEED} // Control speed from here
                 />
             );
         case "stats":
@@ -34,28 +38,48 @@ function renderMessage(message: Message) {
 
 function Console({ messages, handleSubmit }: ConsoleProps) {
     const promptRef = useRef<HTMLInputElement>(null);
-    // 1. Create a ref for the scrollable output container
-    const outputContainerRef = useRef<HTMLDivElement>(null);
+    const outputContainerRef = useRef<HTMLDivElement>(null); // Ref for the message list
+    const scrollHelperRef = useRef<HTMLDivElement>(null); // Ref for the element to scroll to
 
-    useEffect(() => {
-        const container = outputContainerRef.current;
-        if (container) {
-            container.scrollIntoView({
-                behavior: "smooth",
-                block: "end",
-            });
-        }
+    // This effect ensures we always scroll to the bottom as content is added/typed.
+    useLayoutEffect(() => {
+        const outputContainer = outputContainerRef.current;
+        const scrollHelper = scrollHelperRef.current;
+
+        if (!outputContainer || !scrollHelper) return;
+
+        const scrollToBottom = () => {
+            scrollHelper.scrollIntoView({ behavior: "smooth", block: "end" });
+        };
+
+        // Scroll immediately
+        scrollToBottom();
+
+        // scroll whenever the container's size changes
+        const resizeObserver = new ResizeObserver(scrollToBottom);
+        resizeObserver.observe(outputContainer);
+
+        // Cleanup: disconnect the observer when the component unmounts or dependencies change
+        return () => resizeObserver.disconnect();
     }, [messages]);
 
     return (
         <div className="console" onClick={() => promptRef.current?.focus()}>
             <h1 style={{ color: "white" }}>Console</h1>
-            <div className="console-output">
+            {/* Attach ref to the actual list of messages */}
+            <div className="console-output" ref={outputContainerRef}>
                 {messages.map((msg) => (
                     <div key={msg.id}>{renderMessage(msg)}</div>
                 ))}
             </div>
-            <form action={handleSubmit}>
+            <form
+                action={(formData) => {
+                    handleSubmit(formData);
+                    // Clear the input after submission
+                    const form = promptRef.current?.form;
+                    form?.reset();
+                }}
+            >
                 <span className="command-wrapper">
                     <input
                         ref={promptRef}
@@ -64,16 +88,16 @@ function Console({ messages, handleSubmit }: ConsoleProps) {
                         autoComplete="off"
                         spellCheck="false"
                         placeholder={
-                            messages.length === NUM_START_MESSAGES
-                                ? "type a command or help for list of commands"
+                            messages.length <= 1
+                                ? "type a command or 'help' for a list of commands"
                                 : ""
                         }
                         autoFocus
                     />
                 </span>
             </form>
-            {/* Attach the ref to the div to scroll */}
-            <div ref={outputContainerRef} style={{ paddingBlockEnd: 50 }}></div>
+            {/* This empty div is the target to scroll to */}
+            <div ref={scrollHelperRef}></div>
         </div>
     );
 }
