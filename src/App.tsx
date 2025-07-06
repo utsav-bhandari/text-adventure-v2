@@ -5,11 +5,7 @@ import Map from "./components/Map";
 
 export type Message = {
     id: number;
-} & (
-    | { type: "player"; payload: { text: string } }
-    | { type: "system"; payload: { text: string } }
-    | GameResponse
-);
+} & GameResponse;
 
 function App() {
     const [messages, setMessages] = useState<Message[]>([
@@ -19,9 +15,8 @@ function App() {
     const messageIdCounter = useRef(messages.length + 1);
 
     function handleSubmit(formData: FormData) {
-        const command = formData.get("command")?.toString().toLowerCase();
-
-        if (!command) return;
+        let command = formData.get("command") ?? "";
+        command = command.toString().toLowerCase();
 
         // handle misc commands here before game commands
         if (command === "clear" || command === "cls") {

@@ -2,6 +2,7 @@
 
 :root {
     --player-clr: #65d3f3;
+    --cnsle-base-fnt-sz: 1.3rem;
 }
 
 @font-face {
@@ -52,7 +53,7 @@ main {
 .command-wrapper::before {
     content: "> ";
     color: var(--player-clr);
-    font-size: 1.3rem;
+    font-size: var(--cnsle-base-fnt-sz);
 }
 
 .console input {
@@ -60,12 +61,12 @@ main {
     flex: 1;
     color: var(--player-clr);
     caret-color: var(--player-clr);
-    font-size: 1.3rem;
+    font-size: var(--cnsle-base-fnt-sz);
 }
 
 .message {
     color: white;
-    font-size: 1.3rem;
+    font-size: var(--cnsle-base-fnt-sz);
 }
 
 .message--system {
