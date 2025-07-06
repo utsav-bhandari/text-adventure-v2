@@ -14,7 +14,14 @@ class Game {
         str: 14,
     };
 
-    constructor() {}
+    private static instance: Game;
+
+    private constructor() {}
+
+    public static getGameInstance() {
+        if (!Game.instance) Game.instance = new Game();
+        return Game.instance;
+    }
 
     handleCommand(command: string): GameResponse {
         const text = command.toLowerCase();

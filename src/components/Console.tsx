@@ -50,7 +50,6 @@ function Console({ messages, handleSubmit }: ConsoleProps) {
     return (
         <div className="console" onClick={() => promptRef.current?.focus()}>
             <h1 style={{ color: "white" }}>Console</h1>
-            {/* Attach the ref to the div we want to scroll */}
             <div className="console-output">
                 {messages.map((msg) => (
                     <div key={msg.id}>{renderMessage(msg)}</div>
@@ -73,7 +72,8 @@ function Console({ messages, handleSubmit }: ConsoleProps) {
                     />
                 </span>
             </form>
-            <div ref={outputContainerRef}></div>
+            {/* Attach the ref to the div to scroll */}
+            <div ref={outputContainerRef} style={{ paddingBlockEnd: 50 }}></div>
         </div>
     );
 }

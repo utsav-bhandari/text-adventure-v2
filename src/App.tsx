@@ -16,8 +16,6 @@ function App() {
         { id: 1, type: "system", payload: { text: "Welcome" } },
     ]);
 
-    const gameRef = useRef<Game | null>(null);
-
     const messageIdCounter = useRef(messages.length + 1);
 
     function handleSubmit(formData: FormData) {
@@ -31,11 +29,6 @@ function App() {
             return;
         }
 
-        // Instantiate Game on the first command
-        if (!gameRef.current) {
-            gameRef.current = new Game();
-        }
-
         // Create a message object for the player's command
         const playerMessage: Message = {
             id: messageIdCounter.current++,
@@ -44,7 +37,7 @@ function App() {
         };
 
         // Get the game's response
-        const gameResponse = gameRef.current.handleCommand(command);
+        const gameResponse = Game.getGameInstance().handleCommand(command);
 
         const gameMessage: Message = {
             id: messageIdCounter.current++,
