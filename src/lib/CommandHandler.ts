@@ -56,7 +56,6 @@ class CommandHandler {
     public handleCommand(command: string): GameResponse {
         const { action, args } = this.parseCommand(command);
         const actionHandler = this.commandMap[action];
-        console.log(this["parseCommand"]);
 
         return actionHandler
             ? actionHandler(action, args)
@@ -67,6 +66,28 @@ class CommandHandler {
         return this.createResponseObject("error", {
             text: `Are you sure >> ${command} << is a valid command?`,
         });
+    }
+
+    private handleLook(): GameResponse {
+        return this.createResponseObject("narration", {
+            text: "You see the universe...",
+        });
+    }
+
+    private handleDirection(action: string): GameResponse {
+        return this.createResponseObject("narration", {
+            text: `You went ${action}.`,
+        });
+    }
+
+    private createResponseObject(
+        type: GenericResponseTypes,
+        payload: any
+    ): GameResponse {
+        return {
+            type: type,
+            payload: payload,
+        };
     }
 
     private handleFunnyOrEmpty(action: string): GameResponse {
@@ -107,28 +128,6 @@ class CommandHandler {
                 text: "A mocking cackle echoes from unseen corners. That command holds no power here...",
             });
         }
-    }
-
-    private handleLook(): GameResponse {
-        return this.createResponseObject("narration", {
-            text: "You see the universe...",
-        });
-    }
-
-    private handleDirection(action: string): GameResponse {
-        return this.createResponseObject("narration", {
-            text: `You went ${action}.`,
-        });
-    }
-
-    private createResponseObject(
-        type: GenericResponseTypes,
-        payload: any
-    ): GameResponse {
-        return {
-            type: type,
-            payload: payload,
-        };
     }
 }
 
