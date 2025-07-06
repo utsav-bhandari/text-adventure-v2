@@ -1,4 +1,5 @@
-// Define the shapes for each data payload
+import CommandHandler from "./CommandHandler";
+
 type NarrationPayload = { text: string };
 type StatsPayload = { name: string; hp: number; maxHp: number; str: number };
 
@@ -26,51 +27,20 @@ class Game {
 
     private static instance: Game;
 
-    private constructor() {}
+    private commandHandler: CommandHandler;
+
+    private constructor() {
+        this.commandHandler = new CommandHandler();
+    }
 
     public static getGameInstance() {
         if (!Game.instance) Game.instance = new Game();
         return Game.instance;
     }
 
-    handleCommand(command: string): GameResponse {
-        const text = command.toLowerCase();
-
-        switch (text) {
-            case "look":
-                return {
-                    type: "narration",
-                    payload: {
-                        text: "You're in a cave. There's a tunnel to the east.",
-                    },
-                };
-
-            case "stats":
-                return {
-                    type: "stats",
-                    payload: { ...this.playerStats },
-                };
-
-            case "go east":
-                // You can update stats and then show narration
-                this.playerStats.hp -= 5; // Example: take damage from a trap
-                console.log(this.playerStats.hp);
-                return {
-                    type: "narration",
-                    payload: {
-                        text: "You walk into a chamber filled with crystals. You feel a bit weaker.",
-                    },
-                };
-
-            default:
-                return {
-                    type: "error",
-                    payload: {
-                        text: `The command "${command}" doesn't work here.`,
-                    },
-                };
-        }
+    public handleCommand(command: string): GameResponse {
+        return this.commandHandler.handleCommand(command);
     }
 }
 
-export { Game, type GameResponse };
+export { Game, type GameResponse, type GenericResponseTypes };

@@ -1,0 +1,18 @@
+export const FUNNY_ALIASES = [
+    "",
+    "hey",
+    "hi",
+    "hello",
+    "ls",
+    "dir",
+    "cd",
+    "chdir",
+    "pwd",
+    "?",
+    "cat",
+    "more",
+    "less",
+    "echo",
+    "null",
+    "undefined",
+];
