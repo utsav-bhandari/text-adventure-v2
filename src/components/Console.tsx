@@ -1,11 +1,8 @@
-// src/components/Console.tsx
-
-import { useRef, useEffect, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import { type Message } from "../App";
 import NarrationMessage from "./NarrationMessage";
 import StatsTable from "./StatsTable";
 
-// The props definition is unchanged
 type ConsoleProps = {
     messages: Message[];
     handleSubmit: (formData: FormData) => void;
@@ -72,14 +69,7 @@ function Console({ messages, handleSubmit }: ConsoleProps) {
                     <div key={msg.id}>{renderMessage(msg)}</div>
                 ))}
             </div>
-            <form
-                action={(formData) => {
-                    handleSubmit(formData);
-                    // Clear the input after submission
-                    const form = promptRef.current?.form;
-                    form?.reset();
-                }}
-            >
+            <form action={(formData) => handleSubmit(formData)}>
                 <span className="command-wrapper">
                     <input
                         ref={promptRef}
