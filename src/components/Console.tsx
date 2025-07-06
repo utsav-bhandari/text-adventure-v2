@@ -9,7 +9,7 @@ type ConsoleProps = {
 };
 
 // How fast the text should appear (in milliseconds per character)
-const TYPING_SPEED = 10;
+const TYPING_SPEED = 5;
 
 function renderMessage(message: Message) {
     switch (message.type) {
@@ -87,7 +87,7 @@ function Console({ messages, handleSubmit }: ConsoleProps) {
                 </span>
             </form>
             {/* This empty div is the target to scroll to */}
-            <div ref={scrollHelperRef}></div>
+            <div ref={scrollHelperRef} style={{ paddingBlockEnd: 50 }}></div>
         </div>
     );
 }
