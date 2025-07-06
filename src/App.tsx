@@ -39,7 +39,7 @@ function App() {
             ...gameResponse,
         };
 
-        // 3. Update the state with both new messages
+        // Update the state with both new messages
         setMessages((prevMessages) => [
             ...prevMessages,
             playerMessage,

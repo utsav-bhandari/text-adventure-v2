@@ -121,7 +121,7 @@ class CommandHandler {
             });
         } else if (action === "?") {
             return this.createResponseObject("system", {
-                text: `${"¿".repeat(Math.round(Math.random() * 10))}}`,
+                text: `${"¿".repeat(Math.round(Math.random() * 10))}`,
             });
         } else {
             return this.createResponseObject("system", {
