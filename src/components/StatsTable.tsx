@@ -7,7 +7,7 @@ type StatsTableProps = {
 
 export default function StatsTable({ name, hp, maxHp, str }: StatsTableProps) {
     return (
-        <div className="stats-table-container message">
+        <div className="pixel-corners stats-table-container message">
             <h4 className="stats-header">{name}'s Stats</h4>
             <table className="stats-table">
                 <tbody>

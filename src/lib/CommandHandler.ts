@@ -30,6 +30,10 @@ class CommandHandler {
                 aliases: ["north", "east", "south", "west"],
                 handler: this.handleDirection.bind(this),
             },
+            {
+                aliases: ["stats"],
+                handler: this.handleStats.bind(this),
+            },
         ];
 
         this.initializeCommandMap(commandStore);
@@ -53,6 +57,7 @@ class CommandHandler {
         return { action, args };
     }
 
+    // entry point
     public handleCommand(command: string): GameResponse {
         const { action, args } = this.parseCommand(command);
         const actionHandler = this.commandMap[action];
@@ -77,6 +82,15 @@ class CommandHandler {
     private handleDirection(action: string): GameResponse {
         return this.createResponseObject("narration", {
             text: `You went ${action}.`,
+        });
+    }
+
+    private handleStats(): GameResponse {
+        return this.createResponseObject("stats", {
+            name: "Test",
+            hp: 20,
+            maxHp: 20,
+            str: 14,
         });
     }
 
