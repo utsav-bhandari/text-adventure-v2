@@ -7,9 +7,17 @@ export type Message = {
     id: number;
 } & GameResponse;
 
+const game = new Game();
+
 function App() {
     const [messages, setMessages] = useState<Message[]>([
-        { id: 1, type: "system", payload: { text: "Welcome" } },
+        {
+            id: 1,
+            type: "system",
+            payload: {
+                text: "You are in the Entrance. Goal: Defeat the Duskborne Archlich.",
+            },
+        },
     ]);
 
     const messageIdCounter = useRef(messages.length + 1);
@@ -21,6 +29,7 @@ function App() {
         // handle misc commands here before game commands
         if (command === "clear" || command === "cls") {
             setMessages([]);
+            messageIdCounter.current = 1;
             return;
         }
 
@@ -32,7 +41,7 @@ function App() {
         };
 
         // Get the game's response
-        const gameResponse = Game.getGameInstance().handleCommand(command);
+        const gameResponse = game.handleCommand(command);
 
         const gameMessage: Message = {
             id: messageIdCounter.current++,

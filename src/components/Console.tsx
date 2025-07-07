@@ -79,7 +79,7 @@ function Console({ messages, handleSubmit }: ConsoleProps) {
                         spellCheck="false"
                         placeholder={
                             messages.length <= 1
-                                ? "type a command or 'help' for a list of commands"
+                                ? "type a command or 'help' for a list of possible commands"
                                 : ""
                         }
                         autoFocus

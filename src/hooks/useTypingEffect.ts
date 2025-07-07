@@ -6,7 +6,7 @@ type UseTypingEffectProps = {
     isTypingDisabled?: boolean;
 };
 
-const DEFAULT_TYPING_SPEED = 15;
+const DEFAULT_TYPING_SPEED = 10;
 
 function useTypingEffect({
     text,
