@@ -1,3 +1,5 @@
+import { useTypingEffect } from "../hooks/useTypingEffect";
+
 type StatsTableProps = {
     name: string;
     hp: number;
@@ -6,9 +8,14 @@ type StatsTableProps = {
 };
 
 export default function StatsTable({ name, hp, maxHp, str }: StatsTableProps) {
+    const displayedText = useTypingEffect({
+        text: name + "'s Stats",
+        typingSpeed: 50,
+    });
     return (
         <div className="pixel-corners stats-table-container message">
-            <h4 className="stats-header">{name}'s Stats</h4>
+            <h4 className="stats-header">{displayedText}</h4>
+            {/* <h4 className="stats-header">{name}'s Stats</h4> */}
             <table className="stats-table">
                 <tbody>
                     <tr>
