@@ -44,6 +44,7 @@ function App() {
 
         if (command === "clear" || command === "cls") {
             setMessages([]);
+            messageIdCounter.current = 0;
             return;
         }
 
@@ -56,12 +57,13 @@ function App() {
         setMessages((prevMessages) => [...prevMessages, playerMessage]);
 
         const gameResponse = game.handleCommand(command);
+        // normalize responses
         const responseArray = [gameResponse].flat();
 
         // Separate the first response from the rest of the batch.
         const [firstResponse, ...remainingResponses] = responseArray;
 
-        // Process and display the first response IMMEDIATELY.
+        // Process and display the first response immediately.
         const firstMessage: Message = {
             id: messageIdCounter.current++,
             ...firstResponse,

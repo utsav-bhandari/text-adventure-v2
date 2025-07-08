@@ -1,9 +1,10 @@
 @import "./base.css";
 
 :root {
-    --player-clr: #65d3f3;
     --cnsle-base-fnt-sz: 1.1rem;
+    --cnsle-bg-clr: #1e1e2e;
     --cnsle-sys-clr: #f3d965;
+    --cnsle-player-clr: #65d3f3;
 }
 
 @font-face {
@@ -36,9 +37,7 @@ main {
     flex-basis: 55%;
     padding: 1rem;
     border-radius: 10px;
-    background-color: #1e1e2e;
-    font-family: "Block Blueprint", sans-serif;
-    font-size: medium;
+    background-color: var(--cnsle-bg-clr);
     font-family: "Departure Mono", sans-serif;
     overflow: auto;
     box-shadow: inset 0 0 0 6px #4a4a5a;
@@ -55,15 +54,15 @@ main {
 
 .command-wrapper::before {
     content: "> ";
-    color: var(--player-clr);
+    color: var(--cnsle-player-clr);
     font-size: var(--cnsle-base-fnt-sz);
 }
 
 .console input {
     all: unset;
     flex: 1;
-    color: var(--player-clr);
-    caret-color: var(--player-clr);
+    color: var(--cnsle-player-clr);
+    caret-color: var(--cnsle-player-clr);
     font-size: var(--cnsle-base-fnt-sz);
 }
 
@@ -78,7 +77,7 @@ main {
 }
 
 .message--player {
-    color: var(--player-clr);
+    color: var(--cnsle-player-clr);
 }
 
 .message--narration {
