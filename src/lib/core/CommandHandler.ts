@@ -94,33 +94,11 @@ class CommandHandler {
     }
 
     private handleLook(): GameResponse[] {
-        const responseList: GameResponse[] = [];
-
-        const narrationAndSystemMessages = addNarrationResponses([
-            {
-                type: "narration",
-                text: "You find yourself in a dimly lit cavern. A chilling wind whispers past.",
-            },
-            {
-                type: "system",
-                text: "Type 'examine' to look closer, or 'move north' to proceed.",
-            },
-        ]);
-        responseList.push(...narrationAndSystemMessages);
-
-        const statsResponse = createResponseObject("stats", {
-            name: "Adventurer",
-            hp: 75,
-            maxHp: 100,
-            str: 12,
-        });
-        responseList.push(statsResponse);
-
-        return responseList;
+        return this.game.currentRoom.view();
     }
 
-    private handleDirection(direction: Exit): GameResponse {
-        return this.game.movePlayer(direction);
+    private handleDirection(action: string): GameResponse[] {
+        return this.game.movePlayer(action as Exit);
     }
 
     private handleStats(): GameResponse {
@@ -138,6 +116,13 @@ class CommandHandler {
             text = "You ponder the void, and the void ponders back.";
         } else if (action === "hey" || action === "hi" || action === "hello") {
             text = "W-E-SSSSSSSSSSSS-T";
+        } else if (
+            action === "northeast" ||
+            action === "northwest" ||
+            action === "southeast" ||
+            action === "southwest"
+        ) {
+            text = "sigh...";
         } else if (action === "ls" || action === "dir") {
             text =
                 "Accessing cached memories... a fleeting glimpse of forgotten data structures.";

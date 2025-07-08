@@ -36,3 +36,7 @@ export interface EntityData {
     name: string;
     description: string;
 }
+
+export interface NamedEntity extends EntityData {
+    view: () => GameResponse | GameResponse[];
+}

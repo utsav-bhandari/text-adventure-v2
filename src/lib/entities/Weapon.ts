@@ -1,11 +1,12 @@
-import { type EntityData } from "../types";
+import { type EntityData, type GameResponse, type NamedEntity } from "../types";
+import { createResponseObject } from "../utils/utils";
 
 interface WeaponData extends EntityData {
     baseDamage: number;
     critChance: number;
 }
 
-class Weapon {
+class Weapon implements NamedEntity {
     public readonly name: string;
     public readonly description: string;
     private readonly baseDamage: number;
@@ -16,6 +17,11 @@ class Weapon {
         this.description = data.description;
         this.baseDamage = data.baseDamage;
         this.critChance = data.critChance;
+    }
+    view(): GameResponse | GameResponse[] {
+        return createResponseObject("narration", {
+            text: `You see a ${this.name} lying here. ${this.description}`,
+        });
     }
 }
 

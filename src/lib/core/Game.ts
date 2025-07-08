@@ -5,6 +5,7 @@ import { Room, type Exit } from "./Room";
 import roomsJson from "../data/rooms.json";
 import type { GameResponse, GenericResponseTypes } from "../types";
 import { Weapon } from "../entities/Weapon";
+import { createResponseObject } from "../utils/utils";
 
 class Game {
     public roomsMap: Map<string, Room>;
@@ -50,22 +51,33 @@ class Game {
         return this.commandHandler.handleCommand(command);
     }
 
-    public movePlayer(direction: Exit): GameResponse {
+    public movePlayer(direction: Exit): GameResponse[] {
+        const responseList = [];
         const nextRoom = this.currentRoom.neighbors[direction];
 
         if (nextRoom) {
             this.currentRoom = nextRoom;
-            // Return the result of looking at the new room
-            return {
-                type: "narration",
-                payload: { text: this.currentRoom.look() },
+
+            // Create a message for the action itself.
+            const moveResponse: GameResponse = {
+                type: "system",
+                payload: { text: `You move ${direction}.` },
             };
+
+            // Get the array of responses for the new room.
+            const roomResponses = this.currentRoom.view();
+
+            // Combine the move message with the room messages.
+            responseList.push(moveResponse, ...roomResponses);
         } else {
-            return {
-                type: "error",
-                payload: { text: "You can't go that way." },
-            };
+            responseList.push(
+                createResponseObject("error", {
+                    text: `You can't go ${direction} from here.`,
+                })
+            );
         }
+
+        return responseList;
     }
 }
 

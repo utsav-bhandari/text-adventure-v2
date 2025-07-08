@@ -1,13 +1,14 @@
-export type MonsterData = {
-    name: string;
+import type { EntityData, GameResponse, NamedEntity } from "../types";
+import { createResponseObject } from "../utils/utils";
+
+export interface MonsterData extends EntityData {
     attack: number;
     health: number;
     maxHealth: number;
     agility: number;
-    description: string;
-};
+}
 
-class Monster {
+class Monster implements NamedEntity {
     public readonly name: string;
     public readonly description: string;
     public readonly attack: number;
@@ -23,24 +24,29 @@ class Monster {
         this.agility = data.agility;
         this.description = data.description;
     }
+    view(): GameResponse | GameResponse[] {
+        return createResponseObject("system", {
+            text: `${this.name} appears!`,
+        });
+    }
 
-    public getHp(): number {
+    getHp(): number {
         return this.health;
     }
 
-    public setHp(hp: number): void {
+    setHp(hp: number): void {
         this.health = hp;
     }
 
-    public takesDamage(damage: number): void {
+    takesDamage(damage: number): void {
         this.health -= damage;
     }
 
-    public isDead(): boolean {
+    isDead(): boolean {
         return Math.ceil(this.health) <= 0;
     }
 
-    public getAttackDamage(): number {
+    getAttackDamage(): number {
         return this.attack;
     }
 }
