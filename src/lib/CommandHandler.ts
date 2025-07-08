@@ -1,5 +1,6 @@
 import type { GameResponse, GenericResponseTypes, PayloadMap } from "./types";
 import { FUNNY_ALIASES } from "./constants";
+import type { Game } from "./Game";
 
 type ParsedCommand = {
     action: string;
@@ -15,11 +16,14 @@ type CommandConfig = {
     aliases: string[];
     handler: ActionHandler;
 };
+
 class CommandHandler {
     private commandMap: Record<string, ActionHandler> = {};
+    private game: Game;
 
-    constructor() {
+    constructor(game: Game) {
         // One source of truth
+        this.game = game;
         const commandStore: CommandConfig[] = [
             {
                 aliases: FUNNY_ALIASES,

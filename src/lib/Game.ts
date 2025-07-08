@@ -9,18 +9,10 @@ import { Weapon } from "./Weapon";
 class Game {
     private roomsMap: Map<string, Room>;
     private currentRoom: Room;
-
-    private playerStats: StatsPayload = {
-        name: "Arin",
-        hp: 85,
-        maxHp: 100,
-        str: 14,
-    };
-
     private commandHandler: CommandHandler;
 
     constructor() {
-        this.commandHandler = new CommandHandler();
+        this.commandHandler = new CommandHandler(this);
 
         this.roomsMap = new Map<string, Room>();
 
