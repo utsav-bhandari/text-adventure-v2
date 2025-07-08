@@ -24,7 +24,7 @@ function App() {
 
     function handleSubmit(formData: FormData) {
         let command = formData.get("command") ?? "";
-        command = command.toString().toLowerCase();
+        command = command.toString().trim().toLowerCase();
 
         // handle misc commands here before game commands
         if (command === "clear" || command === "cls") {

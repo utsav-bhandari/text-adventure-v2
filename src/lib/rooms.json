@@ -1,7 +1,6 @@
 {
     "rooms": [
         {
-            "id": "entrance",
             "name": "Entrance",
             "description": "You stand at the mouth of a dimly lit cave, its walls adorned with glistening formations.\nThe air is cool and musty, hinting at unseen creatures lurking within.",
             "neighbors": {
@@ -14,8 +13,8 @@
                 "baseDamage": 1
             }
         },
+
         {
-            "id": "r1",
             "name": "Grog's Lair",
             "description": "You enter a chamber filled with the stench of ale and stale bread.\nDim torchlight flickers off the damp stone walls, casting eerie shadows around you.",
             "neighbors": {

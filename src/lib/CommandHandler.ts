@@ -48,11 +48,7 @@ class CommandHandler {
     }
 
     private parseCommand(command: string): ParsedCommand {
-        // Handle potential null/undefined input before splitting
-        const commandStr = String(command ?? "")
-            .trim()
-            .toLowerCase();
-        const tokens = commandStr.split(/\s+/);
+        const tokens = command.split(/\s+/);
         const [action, ...args] = tokens;
         return { action, args };
     }
@@ -64,7 +60,7 @@ class CommandHandler {
 
         return actionHandler
             ? actionHandler(action, args)
-            : this.handleUnknown(action);
+            : this.handleUnknown(command);
     }
 
     private handleUnknown(command: string): GameResponse {

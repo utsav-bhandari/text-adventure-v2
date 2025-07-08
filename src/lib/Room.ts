@@ -1,31 +1,42 @@
-import type { Monster } from "./Monster";
-import type { Weapon } from "./Weapon";
+import type { NamedEntity } from "./types";
+import type { Armor, ArmorData } from "./Armor";
+import type { Monster, MonsterData } from "./Monster";
+import type { Weapon, WeaponData } from "./Weapon";
+
+interface RoomData extends NamedEntity {
+    neighbors: Partial<Record<Exit, string>>; // direction to room name
+    monster?: MonsterData;
+    weapon?: WeaponData;
+    armor?: ArmorData;
+}
 
 type Exit = "north" | "east" | "south" | "west";
 
 class Room {
-    private readonly name: string;
-    private readonly description: string;
-    private exits: Partial<Record<Exit, Room>>;
+    public readonly name: string;
+    public readonly description: string;
+    public neighbors: Partial<Record<Exit, Room>> = {};
 
-    constructor(name: string, description: string) {
-        this.name = name;
-        this.description = description;
-        this.exits = {};
+    private monster?: Monster;
+    private weapon?: Weapon;
+    private armor?: Armor;
+    // more to come
+
+    constructor(data: RoomData) {
+        this.name = data.name;
+        this.description = data.description;
     }
 
-    setWeapon(arg0: Weapon) {
-        return;
-        throw new Error("Method not implemented.");
+    setWeapon(weapon: Weapon) {
+        this.weapon = weapon;
     }
 
-    setMonster(arg0: Monster) {
-        return;
-        throw new Error("Method not implemented.");
+    setMonster(monster: Monster) {
+        this.monster = monster;
     }
 
     public addNeighbor(direction: Exit, room: Room) {
-        this.exits[direction] = room;
+        this.neighbors[direction] = room;
     }
 }
 

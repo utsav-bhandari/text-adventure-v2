@@ -1,6 +1,6 @@
-export interface WeaponData {
-    name: string;
-    description: string;
+import { type NamedEntity } from "./types";
+
+interface WeaponData extends NamedEntity {
     baseDamage: number;
     critChance: number;
 }
@@ -19,4 +19,4 @@ class Weapon {
     }
 }
 
-export { Weapon };
+export { Weapon, type WeaponData };

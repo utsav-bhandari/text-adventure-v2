@@ -41,7 +41,7 @@ class Game {
 
         // First pass: create room instances
         for (const roomData of roomsJson.rooms) {
-            const room = new Room(roomData.name, roomData.description);
+            const room = new Room(roomData);
 
             if (roomData.weapon) room.setWeapon(new Weapon(roomData.weapon));
             if (roomData.monster)
@@ -51,12 +51,12 @@ class Game {
             //     room.setTreasure(new Treasure(roomData.treasure));
             // if (roomData.fountain) room.setFountain(new Fountain());
 
-            this.roomsMap.set(roomData.id, room);
+            this.roomsMap.set(roomData.name, room);
         }
 
         // Second pass: wire neighbors
         for (const roomData of roomsJson.rooms) {
-            const room = this.roomsMap.get(roomData.id)!;
+            const room = this.roomsMap.get(roomData.name)!;
 
             if (roomData.neighbors) {
                 for (const [dir, neighborId] of Object.entries(
