@@ -1,4 +1,4 @@
-import type { GameResponse, GenericResponseTypes } from "./Game";
+import type { GameResponse, GenericResponseTypes, PayloadMap } from "./types";
 import { FUNNY_ALIASES } from "./constants";
 
 type ParsedCommand = {
@@ -6,7 +6,10 @@ type ParsedCommand = {
     args: string[];
 };
 
-type ActionHandler = (action: string, args: string[]) => GameResponse;
+type ActionHandler = (
+    action: string,
+    args: string[]
+) => GameResponse | GameResponse[];
 
 type CommandConfig = {
     aliases: string[];
@@ -47,6 +50,29 @@ class CommandHandler {
         }
     }
 
+    private createResponseObject<T extends GenericResponseTypes>(
+        type: T,
+        payload: PayloadMap[T]
+    ): GameResponse {
+        return {
+            type: type,
+            payload: payload,
+        } as GameResponse;
+    }
+
+    private addNarrationResponses(
+        responses: {
+            type: Exclude<GenericResponseTypes, "stats">;
+            text: string;
+        }[]
+    ): GameResponse[] {
+        const responseList: GameResponse[] = [];
+        for (const { type, text } of responses) {
+            responseList.push(this.createResponseObject(type, { text }));
+        }
+        return responseList;
+    }
+
     private parseCommand(command: string): ParsedCommand {
         const tokens = command.split(/\s+/);
         const [action, ...args] = tokens;
@@ -54,7 +80,7 @@ class CommandHandler {
     }
 
     // entry point
-    public handleCommand(command: string): GameResponse {
+    public handleCommand(command: string): GameResponse | GameResponse[] {
         const { action, args } = this.parseCommand(command);
         const actionHandler = this.commandMap[action];
 
@@ -69,10 +95,30 @@ class CommandHandler {
         });
     }
 
-    private handleLook(): GameResponse {
-        return this.createResponseObject("narration", {
-            text: "You see the universe...",
+    private handleLook(): GameResponse[] {
+        const responseList: GameResponse[] = [];
+
+        const narrationAndSystemMessages = this.addNarrationResponses([
+            {
+                type: "narration",
+                text: "You find yourself in a dimly lit cavern. A chilling wind whispers past.",
+            },
+            {
+                type: "system",
+                text: "Type 'examine' to look closer, or 'move north' to proceed.",
+            },
+        ]);
+        responseList.push(...narrationAndSystemMessages);
+
+        const statsResponse = this.createResponseObject("stats", {
+            name: "Adventurer",
+            hp: 75,
+            maxHp: 100,
+            str: 12,
         });
+        responseList.push(statsResponse);
+
+        return responseList;
     }
 
     private handleDirection(action: string): GameResponse {
@@ -90,55 +136,38 @@ class CommandHandler {
         });
     }
 
-    private createResponseObject(
-        type: GenericResponseTypes,
-        payload: any
-    ): GameResponse {
-        return {
-            type: type,
-            payload: payload,
-        };
-    }
-
     private handleFunnyOrEmpty(action: string): GameResponse {
+        let text = "";
         if (action === "") {
-            return this.createResponseObject("system", {
-                text: "You ponder the void, and the void ponders back.",
-            });
+            text = "You ponder the void, and the void ponders back.";
         } else if (action === "hey" || action === "hi" || action === "hello") {
-            return this.createResponseObject("system", {
-                text: "W-E-SSSSSSSSSSSS-T",
-            });
+            text = "W-E-SSSSSSSSSSSS-T";
         } else if (action === "ls" || action === "dir") {
-            return this.createResponseObject("system", {
-                text: "Accessing cached memories... a fleeting glimpse of forgotten data structures.",
-            });
+            text =
+                "Accessing cached memories... a fleeting glimpse of forgotten data structures.";
         } else if (action === "cd" || action === "chdir") {
-            return this.createResponseObject("system", {
-                text: "Transitioning through conceptual space... the architecture reconfigures.",
-            });
+            text =
+                "Transitioning through conceptual space... the architecture reconfigures.";
         } else if (action === "pwd") {
-            return this.createResponseObject("system", {
-                text: "Current node identified: A nexus point in the infinite weave.",
-            });
+            text =
+                "Current node identified: A nexus point in the infinite weave.";
         } else if (action === "cat" || action === "more" || action === "less") {
-            return this.createResponseObject("system", {
-                text: "Parsing fragmented echoes... a narrative stitched from discarded code.",
-            });
+            text =
+                "Parsing fragmented echoes... a narrative stitched from discarded code.";
         } else if (action === "echo") {
-            return this.createResponseObject("system", {
-                text: "Your input is reflected, a ripple in the data stream. Does it truly originate from you?",
-            });
+            text =
+                "Your input is reflected, a ripple in the data stream. Does it truly originate from you?";
         } else if (action === "?") {
-            return this.createResponseObject("system", {
-                text: `${"¿".repeat(Math.round(Math.random() * 10))}`,
-            });
+            text = `${"¿".repeat(Math.round(Math.random() * 10))}`;
         } else {
             // null/undefined
-            return this.createResponseObject("system", {
-                text: "A mocking cackle echoes from unseen corners. That command holds no power here...",
-            });
+            text =
+                "A mocking cackle echoes from unseen corners. That command holds no power here...";
         }
+
+        return this.createResponseObject("system", {
+            text: text,
+        });
     }
 }
 
