@@ -1,6 +1,7 @@
-import type { GameResponse, GenericResponseTypes, PayloadMap } from "./types";
-import { FUNNY_ALIASES } from "./constants";
-import type { Game } from "./Game";
+import type { GameResponse, GenericResponseTypes, PayloadMap } from "../types";
+import { FUNNY_ALIASES } from "../utils/constants";
+import type { Game } from "../core/Game";
+import type { Exit } from "./Room";
 
 type ParsedCommand = {
     action: string;
@@ -125,9 +126,9 @@ class CommandHandler {
         return responseList;
     }
 
-    private handleDirection(action: string): GameResponse {
+    private handleDirection(direction: Exit): GameResponse {
         return this.createResponseObject("narration", {
-            text: `You went ${action}.`,
+            text: `You went ${direction}.`,
         });
     }
 

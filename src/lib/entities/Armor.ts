@@ -1,6 +1,6 @@
-import { type NamedEntity } from "./types";
+import { type EntityData } from "../types";
 
-interface ArmorData extends NamedEntity {
+interface ArmorData extends EntityData {
     defense: number;
 }
 

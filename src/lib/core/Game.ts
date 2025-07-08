@@ -1,14 +1,14 @@
-import { Armor } from "./Armor";
+import { Armor } from "../entities/Armor";
 import CommandHandler from "./CommandHandler";
-import { Monster } from "./Monster";
+import { Monster } from "../entities/Monster";
 import { Room, type Exit } from "./Room";
-import roomsJson from "./rooms.json";
-import type { GameResponse, GenericResponseTypes, StatsPayload } from "./types";
-import { Weapon } from "./Weapon";
+import roomsJson from "../data/rooms.json";
+import type { GameResponse, GenericResponseTypes } from "../types";
+import { Weapon } from "../entities/Weapon";
 
 class Game {
-    private roomsMap: Map<string, Room>;
-    private currentRoom: Room;
+    public roomsMap: Map<string, Room>;
+    public currentRoom: Room;
     private commandHandler: CommandHandler;
 
     constructor() {

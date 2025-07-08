@@ -32,7 +32,7 @@ export type GameResponse = {
     };
 }[GenericResponseTypes];
 
-export type NamedEntity = {
+export interface EntityData {
     name: string;
     description: string;
-};
+}

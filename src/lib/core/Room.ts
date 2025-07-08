@@ -1,9 +1,9 @@
-import type { NamedEntity } from "./types";
-import type { Armor, ArmorData } from "./Armor";
-import type { Monster, MonsterData } from "./Monster";
-import type { Weapon, WeaponData } from "./Weapon";
+import type { EntityData } from "../types";
+import type { Armor, ArmorData } from "../entities/Armor";
+import type { Monster, MonsterData } from "../entities/Monster";
+import type { Weapon, WeaponData } from "../entities/Weapon";
 
-interface RoomData extends NamedEntity {
+interface RoomData extends EntityData {
     neighbors: Partial<Record<Exit, string>>; // direction to room name
     monster?: MonsterData;
     weapon?: WeaponData;
@@ -25,6 +25,10 @@ class Room {
     constructor(data: RoomData) {
         this.name = data.name;
         this.description = data.description;
+    }
+
+    look() {
+        console.log("looked at room and things in room");
     }
 
     setMonster(monster: Monster) {

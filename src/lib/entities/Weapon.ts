@@ -1,6 +1,6 @@
-import { type NamedEntity } from "./types";
+import { type EntityData } from "../types";
 
-interface WeaponData extends NamedEntity {
+interface WeaponData extends EntityData {
     baseDamage: number;
     critChance: number;
 }

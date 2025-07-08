@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Game, type GameResponse } from "./lib/Game";
+import { Game, type GameResponse } from "./lib/core/Game";
 import Console from "./components/Console";
 import Map from "./components/Map";
 
@@ -47,7 +47,6 @@ function App() {
 
         // multiple responses received
         if (gameResponses instanceof Array) {
-            console.log("arrayyyyy");
             for (const gameResponse of gameResponses) {
                 gameMessages.push({
                     id: messageIdCounter.current++,
@@ -56,7 +55,6 @@ function App() {
             }
             // single response
         } else {
-            console.log("not arrrayyyyyyy");
             gameMessages.push({
                 id: messageIdCounter.current++,
                 ...gameResponses,
