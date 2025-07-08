@@ -1,3 +1,4 @@
+import { Armor } from "./Armor";
 import CommandHandler from "./CommandHandler";
 import { Monster } from "./Monster";
 import { Room, type Exit } from "./Room";
@@ -6,6 +7,7 @@ import { Weapon } from "./Weapon";
 
 type NarrationPayload = { text: string };
 type StatsPayload = { name: string; hp: number; maxHp: number; str: number };
+// type InventoryPayload = { items: string[] };
 
 type GenericResponseTypes =
     | "player"
@@ -13,13 +15,24 @@ type GenericResponseTypes =
     | "system"
     | "error"
     | "stats";
+//   | "inventory"
 
-type GameResponse =
-    | {
-          type: Exclude<GenericResponseTypes, "stats">;
-          payload: NarrationPayload;
-      }
-    | { type: Extract<GenericResponseTypes, "stats">; payload: StatsPayload };
+// Define a map of types to their corresponding payloads
+type PayloadMap = {
+    player: NarrationPayload;
+    narration: NarrationPayload;
+    system: NarrationPayload;
+    error: NarrationPayload;
+    stats: StatsPayload;
+    //   inventory: InventoryPayload;
+};
+
+type GameResponse = {
+    [K in GenericResponseTypes]: {
+        type: K;
+        payload: PayloadMap[K];
+    };
+}[GenericResponseTypes];
 
 class Game {
     private roomsMap: Map<string, Room>;
@@ -46,7 +59,7 @@ class Game {
             if (roomData.weapon) room.setWeapon(new Weapon(roomData.weapon));
             if (roomData.monster)
                 room.setMonster(new Monster(roomData.monster));
-            // if (roomData.armor) room.setArmor(new Armor(roomData.armor));
+            if (roomData.armor) room.setArmor(new Armor(roomData.armor));
             // if (roomData.treasure)
             //     room.setTreasure(new Treasure(roomData.treasure));
             // if (roomData.fountain) room.setFountain(new Fountain());
@@ -58,17 +71,15 @@ class Game {
         for (const roomData of roomsJson.rooms) {
             const room = this.roomsMap.get(roomData.name)!;
 
-            if (roomData.neighbors) {
-                for (const [dir, neighborId] of Object.entries(
-                    roomData.neighbors
-                ) as [Exit, string][]) {
-                    const neighbor = this.roomsMap.get(neighborId);
-                    if (neighbor) room.addNeighbor(dir, neighbor);
-                }
+            for (const [dir, neighborId] of Object.entries(
+                roomData.neighbors
+            ) as [Exit, string][]) {
+                const neighbor = this.roomsMap.get(neighborId);
+                if (neighbor) room.addNeighbor(dir, neighbor);
             }
         }
 
-        this.currentRoom = this.roomsMap.get("entrance")!;
+        this.currentRoom = this.roomsMap.get("Entrance")!;
     }
 
     public handleCommand(command: string): GameResponse {
