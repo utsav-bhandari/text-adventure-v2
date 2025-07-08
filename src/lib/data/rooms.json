@@ -2,7 +2,7 @@
     "rooms": [
         {
             "name": "Entrance",
-            "description": "You stand at the mouth of a dimly lit cave, its walls adorned with glistening formations.\nThe air is cool and musty, hinting at unseen creatures lurking within.",
+            "description": "You stand at the mouth of a dimly lit cave, its walls adorned with glistening formations. The air is cool and musty, hinting at unseen creatures lurking within.",
             "neighbors": {
                 "north": "Grog's Lair"
             },
@@ -16,7 +16,7 @@
 
         {
             "name": "Grog's Lair",
-            "description": "You enter a chamber filled with the stench of ale and stale bread.\nDim torchlight flickers off the damp stone walls, casting eerie shadows around you.",
+            "description": "A chamber filled with the stench of ale and stale bread.Dim torchlight flickers off the damp stone walls, casting eerie shadows around you.",
             "neighbors": {
                 "north": "Dagger Den",
                 "south": "Entrance"
@@ -27,7 +27,7 @@
                 "health": 30,
                 "maxHealth": 30,
                 "agility": 11,
-                "description": "He's a small, mischievous hobgoblin from folklore, known for playing tricks on humans.\nHe seems a little dim-witted."
+                "description": "He's a small, mischievous hobgoblin from folklore, known for playing tricks on humans.He seems a little dim-witted."
             },
             "armor": {
                 "name": "Iron Boots",

@@ -3,7 +3,6 @@ import { Game, type GameResponse } from "./lib/core/Game";
 import Console from "./components/Console";
 import Map from "./components/Map";
 
-// --- New constants for delay calculation ---
 // Establishes a comfortable reading speed for the delay.
 const MS_PER_WORD = 100;
 // Ensures even short messages have a noticeable pause.

@@ -15,4 +15,8 @@ export const FUNNY_ALIASES = [
     "echo",
     "null",
     "undefined",
+    "northeast",
+    "southeast",
+    "southwest",
+    "northwest",
 ];
