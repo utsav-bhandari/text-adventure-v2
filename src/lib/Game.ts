@@ -3,36 +3,8 @@ import CommandHandler from "./CommandHandler";
 import { Monster } from "./Monster";
 import { Room, type Exit } from "./Room";
 import roomsJson from "./rooms.json";
+import type { GameResponse, GenericResponseTypes, StatsPayload } from "./types";
 import { Weapon } from "./Weapon";
-
-type NarrationPayload = { text: string };
-type StatsPayload = { name: string; hp: number; maxHp: number; str: number };
-// type InventoryPayload = { items: string[] };
-
-type GenericResponseTypes =
-    | "player"
-    | "narration"
-    | "system"
-    | "error"
-    | "stats";
-//   | "inventory"
-
-// Define a map of types to their corresponding payloads
-type PayloadMap = {
-    player: NarrationPayload;
-    narration: NarrationPayload;
-    system: NarrationPayload;
-    error: NarrationPayload;
-    stats: StatsPayload;
-    //   inventory: InventoryPayload;
-};
-
-type GameResponse = {
-    [K in GenericResponseTypes]: {
-        type: K;
-        payload: PayloadMap[K];
-    };
-}[GenericResponseTypes];
 
 class Game {
     private roomsMap: Map<string, Room>;
@@ -82,7 +54,7 @@ class Game {
         this.currentRoom = this.roomsMap.get("Entrance")!;
     }
 
-    public handleCommand(command: string): GameResponse {
+    public handleCommand(command: string): GameResponse | GameResponse[] {
         return this.commandHandler.handleCommand(command);
     }
 }

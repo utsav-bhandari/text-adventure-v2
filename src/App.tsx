@@ -41,18 +41,33 @@ function App() {
         };
 
         // Get the game's response
-        const gameResponse = game.handleCommand(command);
+        const gameResponses = game.handleCommand(command);
 
-        const gameMessage: Message = {
-            id: messageIdCounter.current++,
-            ...gameResponse,
-        };
+        let gameMessages: Message[] = [];
+
+        // multiple responses received
+        if (gameResponses instanceof Array) {
+            console.log("arrayyyyy");
+            for (const gameResponse of gameResponses) {
+                gameMessages.push({
+                    id: messageIdCounter.current++,
+                    ...gameResponse,
+                });
+            }
+            // single response
+        } else {
+            console.log("not arrrayyyyyyy");
+            gameMessages.push({
+                id: messageIdCounter.current++,
+                ...gameResponses,
+            });
+        }
 
         // Update the state with both new messages
         setMessages((prevMessages) => [
             ...prevMessages,
             playerMessage,
-            gameMessage,
+            ...gameMessages,
         ]);
     }
 
