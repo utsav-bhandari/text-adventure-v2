@@ -4,13 +4,13 @@
             "name": "Entrance",
             "description": "You stand at the mouth of a dimly lit cave, its walls adorned with glistening formations.\nThe air is cool and musty, hinting at unseen creatures lurking within.",
             "neighbors": {
-                "north": "r1"
+                "north": "Grog's Lair"
             },
             "weapon": {
-                "name": "hilt",
+                "name": "Unassuming Hilt",
                 "description": "It seems to be a hilt of a fairly large sword.",
                 "critChance": 1,
-                "baseDamage": 1
+                "baseDamage": 2
             }
         },
 
@@ -18,8 +18,8 @@
             "name": "Grog's Lair",
             "description": "You enter a chamber filled with the stench of ale and stale bread.\nDim torchlight flickers off the damp stone walls, casting eerie shadows around you.",
             "neighbors": {
-                "south": "entrance",
-                "north": "r2"
+                "north": "Dagger Den",
+                "south": "Entrance"
             },
             "monster": {
                 "name": "Grog",

@@ -27,12 +27,16 @@ class Room {
         this.description = data.description;
     }
 
+    setMonster(monster: Monster) {
+        this.monster = monster;
+    }
+
     setWeapon(weapon: Weapon) {
         this.weapon = weapon;
     }
 
-    setMonster(monster: Monster) {
-        this.monster = monster;
+    setArmor(armor: Armor) {
+        this.armor = armor;
     }
 
     public addNeighbor(direction: Exit, room: Room) {
