@@ -46,7 +46,7 @@ class Game {
         this.currentRoom = this.roomsMap.get("Entrance")!;
     }
 
-    public handleCommand(command: string): GameResponse | GameResponse[] {
+    public handleCommand(command: string): GameResponse[] {
         return this.commandHandler.handleCommand(command);
     }
 

@@ -63,14 +63,28 @@ class CommandHandler {
     }
 
     // entry point
-    public handleCommand(command: string): GameResponse | GameResponse[] {
+    public handleCommand(command: string): GameResponse[] {
         const { action, args } = this.parseCommand(command);
         const actionHandler = this.commandMap[action];
 
-        // TODO: flatten response here and remove union type
-        return actionHandler
-            ? actionHandler(action, args)
-            : this.handleUnknown(command);
+        let result: GameResponse | GameResponse[];
+
+        if (actionHandler) {
+            result = actionHandler(action, args);
+        } else {
+            result = this.handleUnknown(command);
+        }
+
+        result = Array.isArray(result) ? result : [result];
+
+        // hijack response array every time to send this message
+        result.push(
+            createResponseObject("system", {
+                text: `You are in ${this.game.currentRoom.name}.`,
+            })
+        );
+
+        return result;
     }
 
     private handleUnknown(command: string): GameResponse {
