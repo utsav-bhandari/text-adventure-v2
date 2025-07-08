@@ -29,6 +29,7 @@ class Room {
 
     look() {
         console.log("looked at room and things in room");
+        return this.description;
     }
 
     setMonster(monster: Monster) {

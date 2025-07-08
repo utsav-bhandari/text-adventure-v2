@@ -49,6 +49,24 @@ class Game {
     public handleCommand(command: string): GameResponse | GameResponse[] {
         return this.commandHandler.handleCommand(command);
     }
+
+    public movePlayer(direction: Exit): GameResponse {
+        const nextRoom = this.currentRoom.neighbors[direction];
+
+        if (nextRoom) {
+            this.currentRoom = nextRoom;
+            // Return the result of looking at the new room
+            return {
+                type: "narration",
+                payload: { text: this.currentRoom.look() },
+            };
+        } else {
+            return {
+                type: "error",
+                payload: { text: "You can't go that way." },
+            };
+        }
+    }
 }
 
 export { Game, type GameResponse, type GenericResponseTypes };

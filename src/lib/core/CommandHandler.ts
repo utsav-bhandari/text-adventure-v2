@@ -1,5 +1,6 @@
-import type { GameResponse, GenericResponseTypes, PayloadMap } from "../types";
+import type { GameResponse } from "../types";
 import { FUNNY_ALIASES } from "../utils/constants";
+import { createResponseObject, addNarrationResponses } from "../utils/utils";
 import type { Game } from "../core/Game";
 import type { Exit } from "./Room";
 
@@ -55,29 +56,6 @@ class CommandHandler {
         }
     }
 
-    private createResponseObject<T extends GenericResponseTypes>(
-        type: T,
-        payload: PayloadMap[T]
-    ): GameResponse {
-        return {
-            type: type,
-            payload: payload,
-        } as GameResponse;
-    }
-
-    private addNarrationResponses(
-        responses: {
-            type: Exclude<GenericResponseTypes, "stats">;
-            text: string;
-        }[]
-    ): GameResponse[] {
-        const responseList: GameResponse[] = [];
-        for (const { type, text } of responses) {
-            responseList.push(this.createResponseObject(type, { text }));
-        }
-        return responseList;
-    }
-
     private parseCommand(command: string): ParsedCommand {
         const tokens = command.split(/\s+/);
         const [action, ...args] = tokens;
@@ -89,13 +67,14 @@ class CommandHandler {
         const { action, args } = this.parseCommand(command);
         const actionHandler = this.commandMap[action];
 
+        // TODO: flatten response here and remove union type
         return actionHandler
             ? actionHandler(action, args)
             : this.handleUnknown(command);
     }
 
     private handleUnknown(command: string): GameResponse {
-        return this.createResponseObject("error", {
+        return createResponseObject("error", {
             text: `Are you sure >> ${command} << is a valid command?`,
         });
     }
@@ -103,7 +82,7 @@ class CommandHandler {
     private handleLook(): GameResponse[] {
         const responseList: GameResponse[] = [];
 
-        const narrationAndSystemMessages = this.addNarrationResponses([
+        const narrationAndSystemMessages = addNarrationResponses([
             {
                 type: "narration",
                 text: "You find yourself in a dimly lit cavern. A chilling wind whispers past.",
@@ -115,7 +94,7 @@ class CommandHandler {
         ]);
         responseList.push(...narrationAndSystemMessages);
 
-        const statsResponse = this.createResponseObject("stats", {
+        const statsResponse = createResponseObject("stats", {
             name: "Adventurer",
             hp: 75,
             maxHp: 100,
@@ -127,14 +106,12 @@ class CommandHandler {
     }
 
     private handleDirection(direction: Exit): GameResponse {
-        return this.createResponseObject("narration", {
-            text: `You went ${direction}.`,
-        });
+        return this.game.movePlayer(direction);
     }
 
     private handleStats(): GameResponse {
-        return this.createResponseObject("stats", {
-            name: "Test",
+        return createResponseObject("stats", {
+            name: "Adventurer",
             hp: 20,
             maxHp: 20,
             str: 14,
@@ -170,7 +147,7 @@ class CommandHandler {
                 "A mocking cackle echoes from unseen corners. That command holds no power here...";
         }
 
-        return this.createResponseObject("system", {
+        return createResponseObject("system", {
             text: text,
         });
     }
